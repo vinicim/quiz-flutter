@@ -11,11 +11,12 @@ class QuestaoRespostas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> respostas = _questaoRespostasModel.respostas;
+
     return Column(
       children: [
         Questao(_questaoRespostasModel.pergunta),
-        for (var resposta in _questaoRespostasModel.respostas)
-          Resposta(resposta, quandoSelecionado)
+        ...respostas.map((e) => Resposta(e, quandoSelecionado)).toList()
       ],
     );
   }
