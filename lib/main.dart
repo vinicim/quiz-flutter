@@ -1,46 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/questaoRespostas.dart';
-import 'package:quiz/questaoRespostasModel.dart';
+import 'package:quiz/questionario.dart';
+import 'package:quiz/questionarioModel.dart';
+import 'package:quiz/resultado.dart';
 
 void main() => runApp(QuizApp());
 
-//instanciar um objeto PerguntaResposta
+//instanciar um objeto QuestaoResposta
 
 //classe que gerencia o estado
-class _PerguntaAppState extends State<QuizApp> {
-  var _perguntaSelecionada = 0;
+class _QuestaoAppState extends State<QuizApp> {
+  var _questaoSelecionada = 0;
+  List<QuestionarioModel> _questionarioModelLista = [];
+
+  QuestionarioModel questionario1 = QuestionarioModel(
+      'Qual sua cor favorita?', ['Preto', 'Branco', 'Azul', 'Vermelho']);
+  QuestionarioModel questionario2 = QuestionarioModel(
+      'Qual sua raça de cão favorita?', [
+    'Bulldog Francês',
+    'Golden Retrivier',
+    'Pastor Alemão',
+    'Border Coolie'
+  ]);
+  QuestionarioModel questionario3 = QuestionarioModel(
+      'Qual carro gostaria de ter nomento?',
+      ['VW GTI', 'Audi A3', 'VW Fusca', 'BMW 320i']);
 
   void _responder() {
     setState(() {
-      _perguntaSelecionada++;
+      if (temQuestaoSelecionada) _questaoSelecionada++;
     });
+  }
+
+  bool get temQuestaoSelecionada {
+    return _questaoSelecionada < _questionarioModelLista.length;
   }
 
   @override
   Widget build(BuildContext context) {
-    QuestaoRespostasModel perguntaRespostas1 = QuestaoRespostasModel(
-        'Qual sua cor favorita?', ['Preto', 'Branco', 'Azul', 'Vermelho']);
-    QuestaoRespostasModel perguntaRespostas2 = QuestaoRespostasModel(
-        'Qual sua raça de cão favorita?', [
-      'Bulldog Francês',
-      'Golden Retrivier',
-      'Pastor Alemão',
-      'Border Coolie'
-    ]);
-    QuestaoRespostasModel perguntaRespostas3 = QuestaoRespostasModel(
-        'Qual carro gostaria de ter nomento?',
-        ['VW GTI', 'Audi A3', 'VW Fusca', 'BMW 320i']);
-
-    var questaoRepostasModelLista = <QuestaoRespostasModel>[];
-    questaoRepostasModelLista.add(perguntaRespostas1);
-    questaoRepostasModelLista.add(perguntaRespostas2);
-    questaoRepostasModelLista.add(perguntaRespostas3);
+    _questionarioModelLista.clear();
+    _questionarioModelLista.add(questionario1);
+    _questionarioModelLista.add(questionario2);
+    _questionarioModelLista.add(questionario3);
 
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(title: Text('Perguntas')),
-          body: QuestaoRespostas(
-              questaoRepostasModelLista[_perguntaSelecionada], _responder)),
+          appBar: AppBar(title: Text('Questões')),
+          body: temQuestaoSelecionada
+              ? Questionario(
+                  _questionarioModelLista[_questaoSelecionada], _responder)
+              : Resultado()),
     );
   }
 }
@@ -48,7 +56,7 @@ class _PerguntaAppState extends State<QuizApp> {
 //root widget
 class QuizApp extends StatefulWidget {
   @override
-  _PerguntaAppState createState() {
-    return _PerguntaAppState();
+  _QuestaoAppState createState() {
+    return _QuestaoAppState();
   }
 }

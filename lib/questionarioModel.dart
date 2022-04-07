@@ -1,5 +1,5 @@
-class QuestaoRespostasModel {
-  QuestaoRespostasModel(this._pergunta, this._respostas);
+class QuestionarioModel {
+  QuestionarioModel(this._pergunta, this._respostas);
 
   String? _pergunta;
   List<String>? _respostas;
