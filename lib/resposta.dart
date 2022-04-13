@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:quiz/model/respostaModel.dart';
 
 class Resposta extends StatelessWidget {
-  final String texto;
+  final RespostaModel respostaModel;
 
-  final void Function() quandoSelecionado;
+  final void Function(int) quandoSelecionado;
 
-  Resposta(this.texto, this.quandoSelecionado);
+  Resposta(this.respostaModel, this.quandoSelecionado);
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +16,8 @@ class Resposta extends StatelessWidget {
       margin: EdgeInsets.all(8.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(primary: Colors.blue),
-        onPressed: quandoSelecionado,
-        child: Text(texto),
+        onPressed: () => quandoSelecionado(respostaModel.nota),
+        child: Text(respostaModel.resposta),
       ),
     );
   }
